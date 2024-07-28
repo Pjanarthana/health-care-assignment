@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { ThemeProvider } from './contexts/ThemeContext';
+import Header from './Components/Header';
+import Sidebar from './Components/Sidebar';
+import Hero from './Components/Hero';
+import Features from './Components/Features';
+import Testimonials from './Components/Testimonials';
+import CallToAction from './Components/CallToAction';
+import Footer from './Components/Footer';
+import './styles/global.css';
 
 function App() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider>
+      <div className="App">
+        <Header toggleSidebar={toggleSidebar} />
+        <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        <main className={isSidebarOpen ? 'content-shift' : ''}>
+          <Hero />
+          <Features />
+          <Testimonials />
+          <CallToAction />
+        </main>
+        <Footer />
+      </div>
+    </ThemeProvider>
   );
 }
 
